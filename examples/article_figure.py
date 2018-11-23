@@ -1,3 +1,7 @@
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#
+# License: MIT
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import LogLocator

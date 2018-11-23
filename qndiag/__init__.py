@@ -1,3 +1,6 @@
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#
+# License: MIT
 """Joint diagonalization in Python"""
 
 # PEP0440 compatible formatted version, see:
@@ -18,5 +21,5 @@
 
 __version__ = '0.1.dev0'
 
-from .qndiag import qndiag, transform_set, loss, gradient
-from .pham import ajd_pham
+from .qndiag import qndiag, transform_set, loss, gradient  # noqa
+from .pham import ajd_pham  # noqa

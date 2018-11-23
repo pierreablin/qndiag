@@ -1,3 +1,6 @@
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#
+# License: MIT
 from time import time
 
 import numpy as np
