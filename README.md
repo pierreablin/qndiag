@@ -8,11 +8,11 @@ This Python package contains code for fast joint-diagonalization of a set of pos
 ## Installation
 To install the package, simply clone it, and then do:
 
-  `$ pip install -e.`
+  `$ pip install -e .`
 
 To check that everything worked, the command
 
-  `$ python -c 'import tlnmf'`
+  `$ python -c 'import qndiag'`
 
 should not return any error.
 
