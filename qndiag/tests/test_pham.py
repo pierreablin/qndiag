@@ -12,7 +12,6 @@ def test_ajd():
     A = rng.randn(p, p)  # mixing matrix
     C = np.array([A.dot(d[:, None] * A.T) for d in diagonals])  # dataset
     B, _ = ajd_pham(C)
-
     BA = np.abs(B.dot(A))  # BA Should be a permutation + scale matrix
     BA /= np.max(BA, axis=1, keepdims=True)
     BA[np.abs(BA) < 1e-12] = 0.
