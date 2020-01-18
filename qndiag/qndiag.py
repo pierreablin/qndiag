@@ -53,6 +53,14 @@ def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
     infos : dict
         Dictionnary of monitoring informations, containing the times,
         gradient norms and objective values.
+
+    References
+    ----------
+    P. Ablin, J.F. Cardoso and A. Gramfort. Beyond Pham's algorithm
+    for joint diagonalization. Proc. ESANN 2019.
+    https://www.elen.ucl.ac.be/Proceedings/esann/esannpdf/es2019-119.pdf
+    https://hal.archives-ouvertes.fr/hal-01936887v1
+    https://arxiv.org/abs/1811.11433
     """
     t0 = time()
     n_samples, n_features, _ = C.shape
@@ -62,8 +70,10 @@ def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
         B = p.T / np.sqrt(d[:, None])
     else:
         B = B0
+
     D = transform_set(B, C)
     current_loss = None
+
     # Monitoring
     if return_B_list:
         B_list = []
@@ -74,6 +84,7 @@ def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
         print('Running quasi-Newton for joint diagonalization')
         print(' | '.join([name.center(8) for name in
                          ["iter", "obj", "gradient"]]))
+
     for t in range(max_iter):
         if return_B_list:
             B_list.append(B.copy())
@@ -84,18 +95,21 @@ def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
         g_norm = np.linalg.norm(G)
         if g_norm < tol:
             break
+
         # Hessian coefficients
         h = np.mean(diagonals[:, None, :] / diagonals[:, :, None], axis=0)
         # Quasi-Newton's direction
         det = h * h.T - 1.
         det[det < lambda_min] = lambda_min  # Regularize
         direction = -(G * h.T - G.T) / det
+
         # Line search
         success, new_D, new_B, new_loss, direction =\
             linesearch(D, B, direction, current_loss, max_ls_tries)
         D = new_D
         B = new_B
         current_loss = new_loss
+
         # Monitoring
         gradient_list.append(g_norm)
         loss_list.append(current_loss)

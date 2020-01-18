@@ -24,14 +24,11 @@ inplace:
 	$(PYTHON) setup.py build_ext -i
 
 test-code:
-	$(PYTESTS) qndiag
+	rm -rf coverage .coverage
+	$(PYTESTS) qndiag --cov=qndiag
 
 test-doc:
 	$(PYTESTS) $(shell find doc -name '*.rst' | sort)
-
-test-coverage:
-	rm -rf coverage .coverage
-	$(PYTESTS) qndiag --cov=qndiag --cov-report html:coverage
 
 test: test-code test-manifest
 
@@ -52,4 +49,4 @@ doc:
 	make -C doc html-noplot
 
 test-manifest:
-	check-manifest --ignore doc,qndiag/*/tests;
+	check-manifest --ignore doc,qndiag/*/tests,matlab_octave;
