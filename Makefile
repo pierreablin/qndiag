@@ -49,4 +49,4 @@ doc:
 	make -C doc html-noplot
 
 test-manifest:
-	check-manifest --ignore doc,qndiag/*/tests;
+	check-manifest --ignore doc,qndiag/*/tests,matlab_octave;
