@@ -2,7 +2,7 @@
 
 
 ![Travis](https://api.travis-ci.org/pierreablin/qndiag.svg?branch=master)
-
+![Codecov](https://codecov.io/gh/pierreablin/qndiag/branch/master/graph/badge.svg)
 
 ## Summary
 
