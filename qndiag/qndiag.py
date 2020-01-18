@@ -56,7 +56,7 @@ def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
 
     References
     ----------
-    P. Ablin, J.F. Cardoso and A. Gramfort. Beyond Pham’s algorithm
+    P. Ablin, J.F. Cardoso and A. Gramfort. Beyond Pham's algorithm
     for joint diagonalization. Proc. ESANN 2019.
     https://www.elen.ucl.ac.be/Proceedings/esann/esannpdf/es2019-119.pdf
     https://hal.archives-ouvertes.fr/hal-01936887v1
