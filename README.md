@@ -1,12 +1,25 @@
 # Quasi-Newton algorithm for joint-diagonalization
 
+
+![Travis](https://api.travis-ci.org/pierreablin/qndiag.svg?branch=master)
+
+
 ## Summary
 
-This Python package contains code for fast joint-diagonalization of a set of positive definite symmetric matrices. The main function is `qndiag.qndiag()`, which takes as input a set of matrices of size `(p, p)`, stored as a `(n, p, p)` array, `C`. It outputs a `(p, p)` array, `B`, such that the matrices `B.dot(C[i]).dot(B.T)` are as diagonal as possible.
+This Python package contains code for fast joint-diagonalization of a set of
+positive definite symmetric matrices. The main function is `qndiag`,
+which takes as input a set of matrices of size `(p, p)`, stored as a `(n, p, p)`
+array, `C`. It outputs a `(p, p)` array, `B`, such that the matrices
+`B @ C[i] @ B.T` (python), ie `B * C(i,:,:) * B'` (matlab/octave)
+are as diagonal as possible.
 
+## Installation of Python package
 
-## Installation
-To install the package, simply clone it, and then do:
+To install the package, do:
+
+  `$ pip install -U https://api.github.com/repos/pierreablin/qndiag/master`
+
+You can also simply clone it, and then do:
 
   `$ pip install -e .`
 
@@ -16,8 +29,10 @@ To check that everything worked, the command
 
 should not return any error.
 
-## Use
+## Use with Python
+
 Here is a toy example (also available at `examples/toy_example.py`)
+
 ```python
 import numpy as np
 from qndiag import qndiag
@@ -32,3 +47,17 @@ B, _ = qndiag(C)  # use the algorithm
 
 print(B.dot(A))  # Should be a permutation + scale matrix
 ```
+
+## Use with Matlab or Octave
+
+See `qndiag.m` and `toy_example.m` in the folder `matlab_octave`.
+
+## Cite
+
+If you use this code please cite:
+
+    P. Ablin, J.F. Cardoso and A. Gramfort. Beyond Pham’s algorithm
+    for joint diagonalization. Proc. ESANN 2019.
+    https://www.elen.ucl.ac.be/Proceedings/esann/esannpdf/es2019-119.pdf
+    https://hal.archives-ouvertes.fr/hal-01936887v1
+    https://arxiv.org/abs/1811.11433

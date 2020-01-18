@@ -10,6 +10,7 @@ before_install:
   - ./miniconda.sh -b -p /home/travis/miniconda
   - export PATH=/home/travis/miniconda/bin:$PATH
   - conda update --yes --quiet conda
+  - sudo apt-get install octave
 install:
   - conda install --yes --quiet numpy=1.11 scipy=0.19
   - conda install --yes --quiet pytest pytest-cov coverage
@@ -19,5 +20,8 @@ install:
   - pip install -e .
 script:
   - make
+  - cd matlab_octave
+  - octave toy_example.m
+  - cd ..
 after_success:
   - codecov
