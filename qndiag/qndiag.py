@@ -124,17 +124,25 @@ def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
     return B, infos
 
 
-def transform_set(M, D):
-    K, N, _ = D.shape
-    op = np.zeros((K, N, N))
-    for i, d in enumerate(D):
-        op[i] = M.dot(d.dot(M.T))
+def transform_set(M, D, diag_only=False):
+    n, p, _ = D.shape
+    if not diag_only:
+        op = np.zeros((n, p, p))
+        for i, d in enumerate(D):
+            op[i] = M.dot(d.dot(M.T))
+    else:
+        op = np.zeros((n, p))
+        for i, d in enumerate(D):
+            op[i] = np.sum(M * d.dot(M.T), axis=0)
     return op
 
 
-def loss(B, D):
-    n, p, _ = D.shape
-    diagonals = np.diagonal(D, axis1=1, axis2=2)
+def loss(B, D, is_diag=False):
+    n, p = D.shape[:2]
+    if not is_diag:
+        diagonals = np.diagonal(D, axis1=1, axis2=2)
+    else:
+        diagonals = D
     logdet = -np.linalg.slogdet(B)[1]
     return logdet + 0.5 * np.sum(np.log(diagonals)) / n
 
@@ -152,13 +160,14 @@ def linesearch(D, B, direction, current_loss, n_ls_tries):
         current_loss = loss(B, D)
     for n in range(n_ls_tries):
         M = np.eye(p) + step * direction
-        new_D = transform_set(M, D)
+        new_D = transform_set(M, D, diag_only=True)
         new_B = np.dot(M, B)
-        new_loss = loss(new_B, new_D)
+        new_loss = loss(new_B, new_D, is_diag=True)
         if new_loss < current_loss:
             success = True
             break
         step /= 2.
     else:
         success = False
+    new_D = transform_set(M, D, diag_only=False)
     return success, new_D, new_B, new_loss, step * direction

@@ -120,7 +120,7 @@ end
 
 [n_samples, n_features, ~] = size(C);
 
-D = transform_set(B, C);
+D = transform_set(B, C, false);
 current_loss = NaN;
 
 % Monitoring
@@ -193,11 +193,19 @@ end
 
 end
 
-function [op] = transform_set(M, D)
-    [K, N, ~] = size(D);
-    op = zeros(K, N, N);
-    for k=1:length(D)
-        op(k, :, :) = M * squeeze(D(k, :, :)) * M';
+function [op] = transform_set(M, D, diag_only)
+    if ~diag_only
+        [n, p, ~] = size(D);
+        op = zeros(n, p, p);
+        for k=1:length(D)
+            op(k, :, :) = M * squeeze(D(k, :, :)) * M';
+        end
+    else
+        [n, p, ~] = size(D);
+        op = zeros(n, p);
+        for k=1:length(D)
+            op(k, :) = sum(M .* (squeeze(D(k, :, :)) * M'), 1);
+        end
     end
 end
 
@@ -205,11 +213,15 @@ function [v] = slogdet(A)
     v = log(abs(det(A)));
 end
 
-function [out] = loss(B, D)
+function [out] = loss(B, D, is_diag)
     [n, p, ~] = size(D);
-    diagonals = zeros(n, p);
-    for k=1:n
-        diagonals(k, :) = diag(squeeze(D(k, :, :)));
+    if ~is_diag
+        diagonals = zeros(n, p);
+        for k=1:n
+            diagonals(k, :) = diag(squeeze(D(k, :, :)));
+        end
+    else
+        diagonals = D
     end
     logdet = -slogdet(B);
     out = logdet + 0.5 * sum(log(diagonals(:))) / n;
@@ -219,14 +231,14 @@ function [success, new_D, new_B, new_loss, delta] = linesearch(D, B, direction, 
     [n, p, ~] = size(D);
     step = 1.;
     if current_loss == NaN
-        current_loss = loss(B, D);
+        current_loss = loss(B, D, false);
     end
     success = false;
     for n=1:n_ls_tries
         M = eye(p) + step * direction;
-        new_D = transform_set(M, D);
+        new_D = transform_set(M, D, true);
         new_B = M * B;
-        new_loss = loss(new_B, new_D);
+        new_loss = loss(new_B, new_D, true);
         
         if new_loss < current_loss
             success = true;
@@ -234,5 +246,6 @@ function [success, new_D, new_B, new_loss, delta] = linesearch(D, B, direction, 
         end
         step = step / 2;
     end
+    new_D = transform_set(M, D, false);
     delta = step * direction;
 end
