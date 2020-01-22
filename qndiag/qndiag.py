@@ -8,7 +8,8 @@ import numpy as np
 
 
 def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
-           max_ls_tries=10, return_B_list=False, verbose=False):
+           max_ls_tries=10, diag_only=False, return_B_list=False,
+           verbose=False):
     """Joint diagonalization of matrices using the quasi-Newton method
 
 
@@ -35,6 +36,12 @@ def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
 
     max_ls_tries : int, optional
         Maximum number of line-search tries to perform.
+
+    diag_only : bool, optional
+        If true, the line search is done by computing only the diagonals of the
+        dataset. The dataset is then computed after the line search.
+        Taking diag_only = True might be faster than diag_only=False
+        when the matrices are large (n_features > 200)
 
     return_B_list : bool, optional
         Chooses whether or not to return the list of iterates.
@@ -105,7 +112,7 @@ def qndiag(C, B0=None, max_iter=10000, tol=1e-10, lambda_min=1e-4,
 
         # Line search
         success, new_D, new_B, new_loss, direction =\
-            linesearch(D, B, direction, current_loss, max_ls_tries)
+            linesearch(D, B, direction, current_loss, max_ls_tries, diag_only)
         D = new_D
         B = new_B
         current_loss = new_loss
@@ -153,21 +160,23 @@ def gradient(D):
     return np.mean(D / diagonals[:, :, None], axis=0) - np.eye(p)
 
 
-def linesearch(D, B, direction, current_loss, n_ls_tries):
+def linesearch(D, B, direction, current_loss, n_ls_tries, diag_only):
     n, p, _ = D.shape
     step = 1.
     if current_loss is None:
         current_loss = loss(B, D)
     for n in range(n_ls_tries):
         M = np.eye(p) + step * direction
-        new_D = transform_set(M, D, diag_only=True)
+        new_D = transform_set(M, D, diag_only=diag_only)
         new_B = np.dot(M, B)
-        new_loss = loss(new_B, new_D, is_diag=True)
+        new_loss = loss(new_B, new_D, is_diag=diag_only)
         if new_loss < current_loss:
             success = True
             break
         step /= 2.
     else:
         success = False
-    new_D = transform_set(M, D, diag_only=False)
+    # Compute new value of D if only its diagonal was computed
+    if diag_only:
+        new_D = transform_set(M, D, diag_only=False)
     return success, new_D, new_B, new_loss, step * direction
