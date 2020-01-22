@@ -194,14 +194,13 @@ end
 end
 
 function [op] = transform_set(M, D, diag_only)
+    [n, p, ~] = size(D);
     if ~diag_only
-        [n, p, ~] = size(D);
         op = zeros(n, p, p);
         for k=1:length(D)
             op(k, :, :) = M * squeeze(D(k, :, :)) * M';
         end
     else
-        [n, p, ~] = size(D);
         op = zeros(n, p);
         for k=1:length(D)
             op(k, :) = sum(M .* (squeeze(D(k, :, :)) * M'), 1);
