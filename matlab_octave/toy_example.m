@@ -19,6 +19,12 @@ for k=1:n
     C(k, :, :) = A * diag(diagonals(k, :)) * A';
 end
 
-[D, B] = qndiag(C, 'max_iter', 10);
+[D, B] = qndiag(C, 'max_iter', 100);
+
+B * A  % Should be a permutation + scale matrix
+
+weights = rand(n, 1);
+
+[D, B] = qndiag(C, 'max_iter', 100, 'weights', weights);
 
 B * A  % Should be a permutation + scale matrix

@@ -18,16 +18,18 @@ function [D, B, infos] = qndiag(C, varargin)
 %
 % Optional parameters:
 % --------------------
-% 'm'                         Initial point for the algorithm.
+% 'B0'                        Initial point for the algorithm.
 %                             If absent, a whitener is used.
-%
+% 'weights'                   Weights for each matrix in the loss:
+%                             L = sum(weights * KL(C, C')).
+%                             No weighting (weights = 1) by default.
 % 'maxiter'                   (int) Maximum number of iterations to perform.
-%                             Default : 100
+%                             Default : 1000
 %
 % 'tol'                       (float) A positive scalar giving the tolerance at
 %                             which the algorithm is considered to have converged.
 %                             The algorithm stops when  |gradient| < tol.
-%                             Default : 1e-10
+%                             Default : 1e-6
 %
 % lambda_min                  (float) A positive regularization scalar. Each
 %                             eigenvalue of the Hessian approximation below
@@ -82,12 +84,13 @@ p = fliplr(p);
 d = flip(diag(d));
 B = p' ./ repmat(sqrt(d), 1, size(p, 1));
 
-max_iter = 100;
-tol = 1e-10;
+max_iter = 1000;
+tol = 1e-6;
 lambda_min = 1e-4;
 max_ls_tries = 10;
 return_B_list = false;
 verbose = false;
+weights = [];
 
 % Read varargin
 
@@ -105,6 +108,8 @@ for i = 1:2:length(varargin)
             max_iter = value;
         case 'tol'
             tol = value;
+        case 'weights'
+            weights = value / mean(value(:));
         case 'lambda_min'
             lambda_min = value;
         case 'max_ls_tries'
@@ -148,18 +153,36 @@ for t=1:max_iter
     end
 
     % Gradient
-    G = squeeze(mean(bsxfun(@rdivide, D, ...
-                            reshape(diagonals, n_samples, n_features, 1)), ...
-                     1)) - eye(n_features);
+    if isempty(weights)
+        G = squeeze(mean(bsxfun(@rdivide, D, ...
+                                reshape(diagonals, n_samples, n_features, 1)), ...
+                         1)) - eye(n_features);
+    else
+        G = squeeze(mean(...
+                bsxfun(@times, ...
+                        reshape(weights, n_samples, 1, 1), ...
+                        bsxfun(@rdivide, D, ...
+                               reshape(diagonals, n_samples, n_features, 1))), ...
+                    1)) - eye(n_features);
+    end
     g_norm = norm(G);
     if g_norm < tol
         break
     end
 
     % Hessian coefficients
-    h = mean(bsxfun(@rdivide, ...
-                    reshape(diagonals, n_samples, 1, n_features), ...
-                    reshape(diagonals, n_samples, n_features, 1)), 1);
+    if isempty(weights)
+        h = mean(bsxfun(@rdivide, ...
+                        reshape(diagonals, n_samples, 1, n_features), ...
+                        reshape(diagonals, n_samples, n_features, 1)), 1);
+    else
+        h = mean(bsxfun(@times, ...
+                        reshape(weights, n_samples, 1, 1), ...
+                        bsxfun(@rdivide, ...
+                                reshape(diagonals, n_samples, 1, n_features), ...
+                                reshape(diagonals, n_samples, n_features, 1))), ...
+                 1);
+    end
     h = squeeze(h);
 
     % Quasi-Newton's direction
@@ -169,7 +192,7 @@ for t=1:max_iter
 
     % Line search
     [success, new_D, new_B, new_loss, direction] = ...
-        linesearch(D, B, direction, current_loss, max_ls_tries);
+        linesearch(D, B, direction, current_loss, max_ls_tries, weights);
     D = new_D;
     B = new_B;
     current_loss = new_loss;
@@ -212,7 +235,7 @@ function [v] = slogdet(A)
     v = log(abs(det(A)));
 end
 
-function [out] = loss(B, D, is_diag)
+function [out] = loss(B, D, is_diag, weights)
     [n, p, ~] = size(D);
     if ~is_diag
         diagonals = zeros(n, p);
@@ -220,13 +243,16 @@ function [out] = loss(B, D, is_diag)
             diagonals(k, :) = diag(squeeze(D(k, :, :)));
         end
     else
-        diagonals = D
+        diagonals = D;
     end
     logdet = -slogdet(B);
+    if ~isempty(weights)
+        diagonals = bsxfun(@times, diagonals, reshape(weights, n, 1));
+    end
     out = logdet + 0.5 * sum(log(diagonals(:))) / n;
 end
 
-function [success, new_D, new_B, new_loss, delta] = linesearch(D, B, direction, current_loss, n_ls_tries)
+function [success, new_D, new_B, new_loss, delta] = linesearch(D, B, direction, current_loss, n_ls_tries, weights)
     [n, p, ~] = size(D);
     step = 1.;
     if current_loss == NaN
@@ -237,7 +263,7 @@ function [success, new_D, new_B, new_loss, delta] = linesearch(D, B, direction, 
         M = eye(p) + step * direction;
         new_D = transform_set(M, D, true);
         new_B = M * B;
-        new_loss = loss(new_B, new_D, true);
+        new_loss = loss(new_B, new_D, true, weights);
         
         if new_loss < current_loss
             success = true;
