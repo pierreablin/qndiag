@@ -8,7 +8,7 @@ import numpy as np
 
 
 def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
-           lambda_min=1e-4,  max_ls_tries=10, diag_only=False,
+           lambda_min=1e-4, max_ls_tries=10, diag_only=False,
            return_B_list=False, verbose=False):
     """Joint diagonalization of matrices using the quasi-Newton method
 
@@ -22,8 +22,9 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
     B0 : None | array-like, shape (n_features, n_features)
         Initial point for the algorithm. If None, a whitener is used.
 
-    weights : None | array-like, shape (n_samples)
-        Weights for each matrix in the loss: L = sum(weights * KL(C, C')).
+    weights : None | array-like, shape (n_samples,)
+        Weights for each matrix in the loss:
+        L = sum(weights * KL(C, C')) / sum(weights).
         No weighting (weights = 1) by default.
 
     max_iter : int, optional
@@ -106,21 +107,15 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
         t_list.append(time() - t0)
         diagonals = np.diagonal(D, axis1=1, axis2=2)
         # Gradient
-        if weights is None:  # Faster without weights
-            G = np.mean(D / diagonals[:, :, None], axis=0) - np.eye(n_features)
-        else:
-            G = np.mean(weights_[:, None, None] * D / diagonals[:, :, None],
-                        axis=0) - np.eye(n_features)
+        G = np.average(D / diagonals[:, :, None], weights=weights_,
+                       axis=0) - np.eye(n_features)
         g_norm = np.linalg.norm(G)
         if g_norm < tol * np.sqrt(n_features):  # rescale by identity
             break
 
         # Hessian coefficients
-        if weights is None:
-            h = np.mean(diagonals[:, None, :] / diagonals[:, :, None], axis=0)
-        else:
-            h = np.mean(weights_[:, None, None] * diagonals[:, None, :]
-                        / diagonals[:, :, None], axis=0)
+        h = np.average(diagonals[:, None, :] / diagonals[:, :, None],
+                       weights=weights_, axis=0)
         # Quasi-Newton's direction
         det = h * h.T - 1.
         det[det < lambda_min] = lambda_min  # Regularize
@@ -177,11 +172,7 @@ def loss(B, D, is_diag=False, weights=None):
 def gradient(D, weights=None):
     n, p, _ = D.shape
     diagonals = np.diagonal(D, axis1=1, axis2=2)
-    if weights is None:
-        return np.mean(D / diagonals[:, :, None], axis=0) - np.eye(p)
-    else:
-        return (np.mean(weights[:, None, None] * D / diagonals[:, :, None],
-                axis=0) - np.eye(p))
+    return np.average(D / diagonals[:, :, None], weights=weights, axis=0) - np.eye(p)
 
 
 def linesearch(D, B, direction, current_loss, n_ls_tries, diag_only, weights):
