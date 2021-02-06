@@ -17,7 +17,7 @@ are as diagonal as possible.
 
 To install the package, do:
 
-  `$ pip install -U https://api.github.com/repos/pierreablin/qndiag/master`
+  `$ pip install -U git+https://github.com/pierreablin/qndiag`
 
 You can also simply clone it, and then do:
 
