@@ -16,8 +16,9 @@ jobs:
     steps:
     - name: Install octave
       run: sudo apt-get install octave
-    - name: Test with pytest
+    - name: Test
       run: |
+        set -e;
         pwd
         ls
         cd matlab_octave
