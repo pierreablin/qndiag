@@ -172,7 +172,9 @@ def loss(B, D, is_diag=False, weights=None):
 def gradient(D, weights=None):
     n, p, _ = D.shape
     diagonals = np.diagonal(D, axis1=1, axis2=2)
-    return np.average(D / diagonals[:, :, None], weights=weights, axis=0) - np.eye(p)
+    grad = np.average(D / diagonals[:, :, None], weights=weights, axis=0)
+    grad.flat[::p + 1] -= 1  # equivalent to - np.eye(p)
+    return grad
 
 
 def linesearch(D, B, direction, current_loss, n_ls_tries, diag_only, weights):
