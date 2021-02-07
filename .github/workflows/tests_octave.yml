@@ -18,5 +18,7 @@ jobs:
       run: sudo apt-get install octave
     - name: Test with pytest
       run: |
+        pwd
+        ls
         cd matlab_octave
         octave toy_example.m
