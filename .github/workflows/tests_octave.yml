@@ -14,20 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2
     - name: Install octave
       run: sudo apt-get install octave
-    - name: Debug
-      run: |
-        set -e;
-        pwd
-    - name: Debug
-      run: |
-        set -e;
-        ls
     - name: Test
       run: |
-        set -e;
-        pwd
-        ls
-        cd ../matlab_octave
+        cd matlab_octave
         octave toy_example.m
