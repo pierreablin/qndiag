@@ -10,14 +10,14 @@ This Python package contains code for fast joint-diagonalization of a set of
 positive definite symmetric matrices. The main function is `qndiag`,
 which takes as input a set of matrices of size `(p, p)`, stored as a `(n, p, p)`
 array, `C`. It outputs a `(p, p)` array, `B`, such that the matrices
-`B @ C[i] @ B.T` (python), ie `B * C(i,:,:) * B'` (matlab/octave)
+`B @ C[i] @ B.T` (python), i.e. `B * C(i,:,:) * B'` (matlab/octave)
 are as diagonal as possible.
 
 ## Installation of Python package
 
 To install the package, do:
 
-  `$ pip install -U https://api.github.com/repos/pierreablin/qndiag/master`
+  `$ pip install -U https://github.com/pierreablin/qndiag/archive/master.zip`
 
 You can also simply clone it, and then do:
 
