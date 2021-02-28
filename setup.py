@@ -47,6 +47,7 @@ if __name__ == "__main__":
           download_url=DOWNLOAD_URL,
           long_description=open('README.md').read(),
           install_requires=[
+              'numpy >=1.14',
           ],
           classifiers=[
               'Intended Audience :: Science/Research',
