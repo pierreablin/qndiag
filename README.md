@@ -15,9 +15,9 @@ are as diagonal as possible.
 
 ## Installation of Python package
 
-To install the package, do:
+To install the package, simply do:
 
-  `$ pip install -U https://github.com/pierreablin/qndiag/archive/master.zip`
+  `$ pip install qndiag`
 
 You can also simply clone it, and then do:
 
