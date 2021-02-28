@@ -4,6 +4,10 @@
 ![Build](https://github.com/pierreablin/qndiag/workflows/tests/badge.svg)
 ![Codecov](https://codecov.io/gh/pierreablin/qndiag/branch/master/graph/badge.svg)
 
+## Doc and website
+
+See here for the documentation and examples: https://pierreablin.github.io/qndiag/
+
 ## Summary
 
 This Python package contains code for fast joint-diagonalization of a set of
