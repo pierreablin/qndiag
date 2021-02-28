@@ -56,7 +56,7 @@ function [D, B, infos] = qndiag(C, varargin)
 %
 %  [D, B] = qndiag(C, 'maxiter', 100, 'tol', 1e-5)
 %
-% Authors: Pierre Ablin <pierre.ablin@inria.fr>
+% Authors: Pierre Ablin <pierreablin@gmail.com>
 %          Alexandre Gramfort <alexandre.gramfort@inria.fr>
 %
 % License: MIT

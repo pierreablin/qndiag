@@ -1,4 +1,4 @@
-% Authors: Pierre Ablin <pierre.ablin@inria.fr>
+% Authors: Pierre Ablin <pierreablin@gmail.com>
 %          Alexandre Gramfort <alexandre.gramfort@inria.fr>
 %
 % License: MIT

@@ -19,7 +19,7 @@ if version is None:
 DISTNAME = 'qndiag'
 DESCRIPTION = descr
 MAINTAINER = 'Pierre Ablin'
-MAINTAINER_EMAIL = 'pierre.ablin@inria.fr'
+MAINTAINER_EMAIL = 'pierreablin@gmail.com'
 LICENSE = 'MIT'
 DOWNLOAD_URL = 'https://github.com/pierreablin/qndiag.git'
 VERSION = version
