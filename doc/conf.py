@@ -314,7 +314,7 @@ intersphinx_mapping = {
     'numpy': ('https://docs.scipy.org/doc/numpy/', None),
     # 'scipy': ('https://docs.scipy.org/doc/scipy/reference', None),
     'matplotlib': ('https://matplotlib.org/', None),
-    'sklearn': ('http://scikit-learn.org/stable', None),
+    # 'sklearn': ('http://scikit-learn.org/stable', None),
 }
 
 sphinx_gallery_conf = {
