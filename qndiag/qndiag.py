@@ -12,7 +12,6 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
            return_B_list=False, verbose=False):
     """Joint diagonalization of matrices using the quasi-Newton method
 
-
     Parameters
     ----------
     C : array-like, shape (n_samples, n_features, n_features)
@@ -33,7 +32,7 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
     tol : float, optional
         A positive scalar giving the tolerance at which the
         algorithm is considered to have converged. The algorithm stops when
-        |gradient| < tol.
+        `|gradient| < tol`.
 
     lambda_min : float, optional
         A positive regularization scalar. Each eigenvalue of the Hessian

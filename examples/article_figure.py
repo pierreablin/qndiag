@@ -1,3 +1,9 @@
+"""
+Replicate figure from paper
+===========================
+
+"""
+
 # Authors: Pierre Ablin <pierreablin@gmail.com>
 #
 # License: MIT

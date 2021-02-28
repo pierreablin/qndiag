@@ -1,4 +1,8 @@
 .DS_Store
+_build
+auto_examples
+gen_modules
+generated
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
