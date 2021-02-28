@@ -1,7 +1,7 @@
 # Quasi-Newton algorithm for joint-diagonalization
 
 
-![Travis](https://api.travis-ci.org/pierreablin/qndiag.svg?branch=master)
+![Build](https://github.com/pierreablin/qndiag/workflows/tests/badge.svg)
 ![Codecov](https://codecov.io/gh/pierreablin/qndiag/branch/master/graph/badge.svg)
 
 ## Summary

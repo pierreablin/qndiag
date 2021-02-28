@@ -1,13 +1,16 @@
 """
 A simple tutorial on joint diagonalization
 ==========================================
+
 We generate some independent signals with different powers.
 The signals are then mixed, and their covariances are computed.
 Joint diagonalization recovers the mixing matrix.
 """
+
 # Authors: Pierre Ablin <pierreablin@gmail.com>
 #
 # License: MIT
+
 import numpy as np
 import matplotlib.pyplot as plt
 

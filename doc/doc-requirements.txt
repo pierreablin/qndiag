@@ -1,0 +1,5 @@
+numpydoc
+pillow
+matplotlib
+sphinx-bootstrap-theme
+sphinx-gallery
