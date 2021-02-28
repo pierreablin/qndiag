@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>qndiag.qndiag &#8212; qndiag 0.2.dev documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/qndiag_logo.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="qndiag.transform_set" href="qndiag.transform_set.html" />
+    <link rel="prev" title="API Documentation" href="../api.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          qndiag</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
+                <li><a href="https://github.com/pierreablin/qndiag">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">qndiag.qndiag</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/generated/qndiag.qndiag.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content-container">
+  
+  <div class="section" id="qndiag-qndiag">
+<h1>qndiag.qndiag<a class="headerlink" href="#qndiag-qndiag" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="qndiag.qndiag">
+<code class="sig-prename descclassname">qndiag.</code><code class="sig-name descname">qndiag</code><span class="sig-paren">(</span><em class="sig-param">C</em>, <em class="sig-param">B0=None</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">max_iter=1000</em>, <em class="sig-param">tol=1e-06</em>, <em class="sig-param">lambda_min=0.0001</em>, <em class="sig-param">max_ls_tries=10</em>, <em class="sig-param">diag_only=False</em>, <em class="sig-param">return_B_list=False</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#qndiag.qndiag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Joint diagonalization of matrices using the quasi-Newton method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>C</strong><span class="classifier">array-like, shape (n_samples, n_features, n_features)</span></dt><dd><p>Set of matrices to be jointly diagonalized. C[0] is the first matrix,
+etc…</p>
+</dd>
+<dt><strong>B0</strong><span class="classifier">None | array-like, shape (n_features, n_features)</span></dt><dd><p>Initial point for the algorithm. If None, a whitener is used.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">None | array-like, shape (n_samples,)</span></dt><dd><p>Weights for each matrix in the loss:
+L = sum(weights * KL(C, C’)) / sum(weights).
+No weighting (weights = 1) by default.</p>
+</dd>
+<dt><strong>max_iter</strong><span class="classifier">int, optional</span></dt><dd><p>Maximum number of iterations to perform.</p>
+</dd>
+<dt><strong>tol</strong><span class="classifier">float, optional</span></dt><dd><p>A positive scalar giving the tolerance at which the
+algorithm is considered to have converged. The algorithm stops when
+<cite>|gradient| &lt; tol</cite>.</p>
+</dd>
+<dt><strong>lambda_min</strong><span class="classifier">float, optional</span></dt><dd><p>A positive regularization scalar. Each eigenvalue of the Hessian
+approximation below lambda_min is set to lambda_min.</p>
+</dd>
+<dt><strong>max_ls_tries</strong><span class="classifier">int, optional</span></dt><dd><p>Maximum number of line-search tries to perform.</p>
+</dd>
+<dt><strong>diag_only</strong><span class="classifier">bool, optional</span></dt><dd><p>If true, the line search is done by computing only the diagonals of the
+dataset. The dataset is then computed after the line search.
+Taking diag_only = True might be faster than diag_only=False
+when the matrices are large (n_features &gt; 200)</p>
+</dd>
+<dt><strong>return_B_list</strong><span class="classifier">bool, optional</span></dt><dd><p>Chooses whether or not to return the list of iterates.</p>
+</dd>
+<dt><strong>verbose</strong><span class="classifier">bool, optional</span></dt><dd><p>Prints informations about the state of the algorithm if True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>D</strong><span class="classifier">array-like, shape (n_samples, n_features, n_features)</span></dt><dd><p>Set of matrices jointly diagonalized</p>
+</dd>
+<dt><strong>B</strong><span class="classifier">array, shape (n_features, n_features)</span></dt><dd><p>Estimated joint diagonalizer matrix.</p>
+</dd>
+<dt><strong>infos</strong><span class="classifier">dict</span></dt><dd><p>Dictionnary of monitoring informations, containing the times,
+gradient norms and objective values.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>P. Ablin, J.F. Cardoso and A. Gramfort. Beyond Pham’s algorithm
+for joint diagonalization. Proc. ESANN 2019.
+<a class="reference external" href="https://www.elen.ucl.ac.be/Proceedings/esann/esannpdf/es2019-119.pdf">https://www.elen.ucl.ac.be/Proceedings/esann/esannpdf/es2019-119.pdf</a>
+<a class="reference external" href="https://hal.archives-ouvertes.fr/hal-01936887v1">https://hal.archives-ouvertes.fr/hal-01936887v1</a>
+<a class="reference external" href="https://arxiv.org/abs/1811.11433">https://arxiv.org/abs/1811.11433</a></p>
+</dd></dl>
+
+</div>
+
+
+</div>
+
+<!-- Github "fork me" ribbon -->
+<a href="https://github.com/pierreablin/smica"><img style="position: absolute; top: 50px; right: 0; border: 0;" 
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020-2021, Pierre Ablin.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

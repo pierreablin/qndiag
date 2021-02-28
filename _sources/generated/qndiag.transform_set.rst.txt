@@ -1,0 +1,6 @@
+qndiag.transform\_set
+=====================
+
+.. currentmodule:: qndiag
+
+.. autofunction:: transform_set

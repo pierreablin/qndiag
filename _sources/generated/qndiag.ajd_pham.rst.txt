@@ -1,0 +1,6 @@
+qndiag.ajd\_pham
+================
+
+.. currentmodule:: qndiag
+
+.. autofunction:: ajd_pham

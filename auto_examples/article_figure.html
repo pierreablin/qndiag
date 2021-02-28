@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Replicate figure from paper &#8212; qndiag 0.2.dev documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/qndiag_logo.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          qndiag</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
+                <li><a href="https://github.com/pierreablin/qndiag">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Replicate figure from paper</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/auto_examples/article_figure.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content-container">
+  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-article-figure-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="replicate-figure-from-paper">
+<span id="sphx-glr-auto-examples-article-figure-py"></span><h1>Replicate figure from paper<a class="headerlink" href="#replicate-figure-from-paper" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors: Pierre Ablin &lt;pierreablin@gmail.com&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># License: MIT</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <a href="https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.LogLocator" title="matplotlib.ticker.LogLocator" class="sphx-glr-backref-module-matplotlib-ticker sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">LogLocator</span></a>
+
+<span class="kn">import</span> <span class="nn">mne</span>
+<span class="kn">from</span> <span class="nn">mne.datasets</span> <span class="kn">import</span> <span class="n">sample</span>
+
+<span class="kn">from</span> <span class="nn">qndiag</span> <span class="kn">import</span> <a href="../generated/qndiag.qndiag.html#qndiag.qndiag" title="qndiag.qndiag" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">qndiag</span></a><span class="p">,</span> <a href="../generated/qndiag.ajd_pham.html#qndiag.ajd_pham" title="qndiag.ajd_pham" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">ajd_pham</span></a><span class="p">,</span> <a href="../generated/qndiag.gradient.html#qndiag.gradient" title="qndiag.gradient" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">gradient</span></a><span class="p">,</span> <a href="../generated/qndiag.transform_set.html#qndiag.transform_set" title="qndiag.transform_set" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">transform_set</span></a>
+
+<span class="n">rng</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="numpy.random.RandomState" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span></a><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">fontsize</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;axes.titlesize&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s1">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+      <span class="s1">&#39;legend.fontsize&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+      <span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
+      <span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
+      <span class="s1">&#39;text.usetex&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+      <span class="s1">&#39;ytick.major.pad&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;ytick.minor.pad&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">}</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">Di</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">+=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html#numpy.sum" title="numpy.sum" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.log.html#numpy.log" title="numpy.log" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">log</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.diagonal.html#numpy.diagonal" title="numpy.diagonal" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">diagonal</span></a><span class="p">(</span><span class="n">Di</span><span class="p">)))</span> <span class="o">-</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.slogdet.html#numpy.linalg.slogdet" title="numpy.linalg.slogdet" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">slogdet</span></a><span class="p">(</span><span class="n">Di</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+
+
+<span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">40</span>
+
+
+<span class="n">f</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">3.04</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="s1">&#39;col&#39;</span><span class="p">)</span>
+<span class="n">expe_str</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="s1">&#39;(b)&#39;</span><span class="p">,</span> <span class="s1">&#39;(c)&#39;</span><span class="p">]</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">T</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">axe</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">axes</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># Synthetic data</span>
+        <span class="c1"># Generate diagonal matrices</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+        <span class="c1"># Generate a random mixing matrix</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">C</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+        <span class="c1"># Generate the dataset</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.dot.html#numpy.dot" title="numpy.dot" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">dot</span></a><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">R</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Real data</span>
+        <span class="n">data_path</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">data_path</span><span class="p">()</span>
+        <span class="n">raw_fname</span> <span class="o">=</span> <span class="n">data_path</span> <span class="o">+</span> <span class="s1">&#39;/MEG/sample/sample_audvis_filt-0-40_raw.fif&#39;</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_fif</span><span class="p">(</span><span class="n">raw_fname</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+        <span class="c1"># Reduce dimension of X by PCA:</span>
+        <span class="n">U</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html#numpy.linalg.svd" title="numpy.linalg.svd" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span></a><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="o">-</span><span class="n">p</span><span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">C</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.dot.html#numpy.dot" title="numpy.dot" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">dot</span></a><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.split.html#numpy.split" title="numpy.split" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">split</span></a><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
+
+    <span class="k">for</span> <span class="n">algo</span> <span class="ow">in</span> <span class="p">[</span><a href="../generated/qndiag.qndiag.html#qndiag.qndiag" title="qndiag.qndiag" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">qndiag</span></a><span class="p">,</span> <a href="../generated/qndiag.ajd_pham.html#qndiag.ajd_pham" title="qndiag.ajd_pham" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">ajd_pham</span></a><span class="p">]:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">infos</span> <span class="o">=</span> <span class="n">algo</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">return_B_list</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># For Pham, compute metrics after the algorithm is run</span>
+        <span class="n">B_list</span> <span class="o">=</span> <span class="n">infos</span><span class="p">[</span><span class="s1">&#39;B_list&#39;</span><span class="p">]</span>
+        <span class="n">infos</span><span class="p">[</span><span class="s1">&#39;gradient_list&#39;</span><span class="p">]</span> <span class="o">=</span>\
+            <span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">(</span><a href="../generated/qndiag.gradient.html#qndiag.gradient" title="qndiag.gradient" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">gradient</span></a><span class="p">(</span><a href="../generated/qndiag.transform_set.html#qndiag.transform_set" title="qndiag.transform_set" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">transform_set</span></a><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">)))</span> <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">B_list</span><span class="p">]</span>
+        <span class="n">infos</span><span class="p">[</span><span class="s1">&#39;loss_list&#39;</span><span class="p">]</span> <span class="o">=</span>\
+            <span class="p">[</span><span class="n">loss</span><span class="p">(</span><a href="../generated/qndiag.transform_set.html#qndiag.transform_set" title="qndiag.transform_set" class="sphx-glr-backref-module-qndiag sphx-glr-backref-type-py-function"><span class="n">transform_set</span></a><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">))</span> <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">B_list</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">to_plot</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                                      <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;loss_list&#39;</span><span class="p">,</span> <span class="s1">&#39;gradient_list&#39;</span><span class="p">],</span>
+                                          <span class="p">[</span><span class="s1">&#39;Objective function&#39;</span><span class="p">,</span>
+                                           <span class="s1">&#39;Gradient norm&#39;</span><span class="p">],</span>
+                                          <span class="n">axe</span><span class="p">)):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">infos</span><span class="p">[</span><span class="s1">&#39;t_list&#39;</span><span class="p">],</span> <span class="n">infos</span><span class="p">[</span><span class="n">to_plot</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (sec.)&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">art</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">expe_str</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">),</span>
+                                  <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span>
+                                  <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><a href="https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.LogLocator" title="matplotlib.ticker.LogLocator" class="sphx-glr-backref-module-matplotlib-ticker sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">LogLocator</span></a><span class="p">(</span><span class="n">numticks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">subs</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,)))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_off</span><span class="p">()</span>
+
+<span class="n">lgd</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figlegend.html#matplotlib.pyplot.figlegend" title="matplotlib.pyplot.figlegend" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figlegend</span></a><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Quasi-Newton (proposed)&#39;</span><span class="p">,</span> <span class="s1">&#39;Pham 01&#39;</span><span class="p">],</span>
+                    <span class="n">loc</span><span class="o">=</span><span class="p">(</span><span class="mf">0.32</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">labelspacing</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html#matplotlib.pyplot.savefig" title="matplotlib.pyplot.savefig" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span></a><span class="p">(</span><span class="s1">&#39;expe.pdf&#39;</span><span class="p">,</span> <span class="n">bbox_extra_artists</span><span class="o">=</span><span class="p">(</span><span class="n">art</span><span class="p">,</span> <span class="n">lgd</span><span class="p">),</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-article-figure-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/3ba724ce295016c8cd16ca6b19dbcc8e/article_figure.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">article_figure.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/2748ae0a9d667463dcac8b8b5cd682e8/article_figure.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">article_figure.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+</div>
+
+<!-- Github "fork me" ribbon -->
+<a href="https://github.com/pierreablin/smica"><img style="position: absolute; top: 50px; right: 0; border: 0;" 
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020-2021, Pierre Ablin.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

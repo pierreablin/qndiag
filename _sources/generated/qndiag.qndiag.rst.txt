@@ -1,0 +1,6 @@
+qndiag.qndiag
+=============
+
+.. currentmodule:: qndiag
+
+.. autofunction:: qndiag

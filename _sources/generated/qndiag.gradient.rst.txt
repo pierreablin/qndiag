@@ -1,0 +1,6 @@
+qndiag.gradient
+===============
+
+.. currentmodule:: qndiag
+
+.. autofunction:: gradient

@@ -1,0 +1,6 @@
+qndiag.loss
+===========
+
+.. currentmodule:: qndiag
+
+.. autofunction:: loss
