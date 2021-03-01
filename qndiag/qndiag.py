@@ -81,7 +81,7 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
     if not isinstance(C, np.ndarray):
         raise TypeError('Input tensor C should be a numpy array.')
     if C.ndim != 3:
-        raise ValueError('Input tensor C should have 3 dimensions')
+        raise ValueError(f'Input tensor C should have 3 dimensions (Got {C.ndim})')
     if C.shape[1] != C.shape[2]:
         raise ValueError('The last two dimensions of C should be the same')
     if check_sympos:
