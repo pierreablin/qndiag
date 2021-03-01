@@ -116,7 +116,30 @@
 <dl class="function">
 <dt id="qndiag.transform_set">
 <code class="sig-prename descclassname">qndiag.</code><code class="sig-name descname">transform_set</code><span class="sig-paren">(</span><em class="sig-param">M</em>, <em class="sig-param">D</em>, <em class="sig-param">diag_only=False</em><span class="sig-paren">)</span><a class="headerlink" href="#qndiag.transform_set" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Transform a set of matrices</p>
+<p>Returns matrices D’ such that
+D’[i] = M x D[i] x M.T</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>M</strong><span class="classifier">array-like, shape (n_features, n_features)</span></dt><dd><p>The transform matrix</p>
+</dd>
+<dt><strong>D</strong><span class="classifier">array-like, shape (n_samples, n_features, n_features)</span></dt><dd><p>The set of covariance matrices</p>
+</dd>
+<dt><strong>diag_only</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to return the diagonal of the dataset only</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>op</strong><span class="classifier">array-like</span></dt><dd><p>Array of shape (n_samples, n_features, n_features)
+if diag_only is False, else (n_samples, n_features)
+The transformed set of covariances</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 

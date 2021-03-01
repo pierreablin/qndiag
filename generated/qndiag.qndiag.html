@@ -115,7 +115,7 @@
 <h1>qndiag.qndiag<a class="headerlink" href="#qndiag-qndiag" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="qndiag.qndiag">
-<code class="sig-prename descclassname">qndiag.</code><code class="sig-name descname">qndiag</code><span class="sig-paren">(</span><em class="sig-param">C</em>, <em class="sig-param">B0=None</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">max_iter=1000</em>, <em class="sig-param">tol=1e-06</em>, <em class="sig-param">lambda_min=0.0001</em>, <em class="sig-param">max_ls_tries=10</em>, <em class="sig-param">diag_only=False</em>, <em class="sig-param">return_B_list=False</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#qndiag.qndiag" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">qndiag.</code><code class="sig-name descname">qndiag</code><span class="sig-paren">(</span><em class="sig-param">C</em>, <em class="sig-param">B0=None</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">max_iter=1000</em>, <em class="sig-param">tol=1e-06</em>, <em class="sig-param">lambda_min=0.0001</em>, <em class="sig-param">max_ls_tries=10</em>, <em class="sig-param">diag_only=False</em>, <em class="sig-param">return_B_list=False</em>, <em class="sig-param">check_sympos=True</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#qndiag.qndiag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Joint diagonalization of matrices using the quasi-Newton method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -146,6 +146,9 @@ Taking diag_only = True might be faster than diag_only=False
 when the matrices are large (n_features &gt; 200)</p>
 </dd>
 <dt><strong>return_B_list</strong><span class="classifier">bool, optional</span></dt><dd><p>Chooses whether or not to return the list of iterates.</p>
+</dd>
+<dt><strong>check_sympos</strong><span class="classifier">bool, optional</span></dt><dd><p>Chooses whether to check that the provided dataset contains only
+symmetric positive definite matrices, as should be.</p>
 </dd>
 <dt><strong>verbose</strong><span class="classifier">bool, optional</span></dt><dd><p>Prints informations about the state of the algorithm if True.</p>
 </dd>
