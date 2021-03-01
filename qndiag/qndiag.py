@@ -9,7 +9,7 @@ import numpy as np
 
 def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
            lambda_min=1e-4, max_ls_tries=10, diag_only=False,
-           return_B_list=False, verbose=False):
+           return_B_list=False, check_sympos=True, verbose=False):
     """Joint diagonalization of matrices using the quasi-Newton method
 
     Parameters
@@ -50,6 +50,10 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
     return_B_list : bool, optional
         Chooses whether or not to return the list of iterates.
 
+    check_sympos : bool, optional
+        Chooses whether to check that the provided dataset contains only
+        symmetric positive definite matrices, as should be.
+
     verbose : bool, optional
         Prints informations about the state of the algorithm if True.
 
@@ -74,6 +78,20 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
     https://arxiv.org/abs/1811.11433
     """
     t0 = time()
+    if not isinstance(C, np.ndarray):
+        raise TypeError('Input tensor C should be a numpy array.')
+    if C.ndim != 3:
+        raise ValueError('Input tensor C should have 3 dimensions')
+    if C.shape[1] != C.shape[2]:
+        raise ValueError('The last two dimensions of C should be the same')
+    if check_sympos:
+        if not np.allclose(C, C.swapaxes(-1, -2)):
+            raise ValueError('C does not contain only symmetric matrices')
+        try:  # Check positivity using Cholesky
+            np.linalg.cholesky(C)
+        except np.linalg.LinAlgError:
+            raise ValueError('C contains some non positive matrices') from None
+
     n_samples, n_features, _ = C.shape
     if B0 is None:
         C_mean = np.mean(C, axis=0)
@@ -122,8 +140,8 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
 
         # Line search
         success, new_D, new_B, new_loss, direction =\
-            linesearch(D, B, direction, current_loss, max_ls_tries, diag_only,
-                       weights_)
+            _linesearch(D, B, direction, current_loss, max_ls_tries, diag_only,
+                        weights_)
         D = new_D
         B = new_B
         current_loss = new_loss
@@ -143,6 +161,30 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
 
 
 def transform_set(M, D, diag_only=False):
+    """Transform a set of matrices
+
+    Returns matrices D' such that
+    D'[i] = M x D[i] x M.T
+
+    Parameters
+    ----------
+    M : array-like, shape (n_features, n_features)
+        The transform matrix
+
+    D : array-like, shape (n_samples, n_features, n_features)
+        The set of covariance matrices
+
+    diag_only : bool, optional
+        Whether to return the diagonal of the dataset only
+
+    Returns
+    -------
+    op : array-like
+        Array of shape (n_samples, n_features, n_features)
+        if diag_only is False, else (n_samples, n_features, n_features)
+        The transformed set of covariances
+
+    """
     n, p, _ = D.shape
     if not diag_only:
         op = np.zeros((n, p, p))
@@ -176,7 +218,7 @@ def gradient(D, weights=None):
     return grad
 
 
-def linesearch(D, B, direction, current_loss, n_ls_tries, diag_only, weights):
+def _linesearch(D, B, direction, current_loss, n_ls_tries, diag_only, weights):
     n, p, _ = D.shape
     step = 1.
     if current_loss is None:
