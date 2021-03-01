@@ -181,7 +181,7 @@ def transform_set(M, D, diag_only=False):
     -------
     op : array-like
         Array of shape (n_samples, n_features, n_features)
-        if diag_only is False, else (n_samples, n_features, n_features)
+        if diag_only is False, else (n_samples, n_features)
         The transformed set of covariances
 
     """
