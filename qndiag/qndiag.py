@@ -141,8 +141,9 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
             break
 
         # Hessian coefficients
-        h = np.average(diagonals[:, None, :] / diagonals[:, :, None],
-                    weights=weights_, axis=0)
+        h = np.average(
+            diagonals[:, None, :] / diagonals[:, :, None],
+            weights=weights_, axis=0)
         if ortho:
             det = h + h.T - 1
             det[det < lambda_min] = lambda_min  # Regularize
@@ -234,7 +235,8 @@ def gradient(D, weights=None):
     return grad
 
 
-def _linesearch(D, B, direction, current_loss, n_ls_tries, diag_only, weights, ortho):
+def _linesearch(D, B, direction, current_loss, n_ls_tries, diag_only,
+                weights, ortho):
     n, p, _ = D.shape
     step = 1.
     if current_loss is None:
