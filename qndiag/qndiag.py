@@ -5,11 +5,12 @@
 from time import time
 
 import numpy as np
+from scipy.linalg import expm
 
 
 def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
            lambda_min=1e-4, max_ls_tries=10, diag_only=False,
-           return_B_list=False, check_sympos=True, verbose=False):
+           return_B_list=False, check_sympos=True, verbose=False, ortho=False):
     """Joint diagonalization of matrices using the quasi-Newton method
 
     Parameters
@@ -56,6 +57,9 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
 
     verbose : bool, optional
         Prints informations about the state of the algorithm if True.
+
+    ortho : bool, optional
+        If true, performs joint diagonlization under orthogonal constrains.
 
     Returns
     -------
@@ -106,6 +110,8 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
     else:
         weights_ = None
 
+    Bu, _, Bv = np.linalg.svd(B, full_matrices=False)
+    B = Bu.dot(Bv)
     D = transform_set(B, C)
     current_loss = None
 
@@ -128,22 +134,29 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
         # Gradient
         G = np.average(D / diagonals[:, :, None], weights=weights_,
                        axis=0) - np.eye(n_features)
+        if ortho:
+            G = G - G.T
         g_norm = np.linalg.norm(G)
         if g_norm < tol * np.sqrt(n_features):  # rescale by identity
             break
 
         # Hessian coefficients
         h = np.average(diagonals[:, None, :] / diagonals[:, :, None],
-                       weights=weights_, axis=0)
-        # Quasi-Newton's direction
-        det = h * h.T - 1.
-        det[det < lambda_min] = lambda_min  # Regularize
-        direction = -(G * h.T - G.T) / det
+                    weights=weights_, axis=0)
+        if ortho:
+            det = h + h.T - 1
+            det[det < lambda_min] = lambda_min  # Regularize
+            direction = -G / det
+        else:
+            # Quasi-Newton's direction
+            det = h * h.T - 1.
+            det[det < lambda_min] = lambda_min  # Regularize
+            direction = -(G * h.T - G.T) / det
 
         # Line search
         success, new_D, new_B, new_loss, direction =\
             _linesearch(D, B, direction, current_loss, max_ls_tries, diag_only,
-                        weights_)
+                        weights_, ortho=ortho)
         D = new_D
         B = new_B
         current_loss = new_loss
@@ -152,6 +165,7 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
         gradient_list.append(g_norm)
         loss_list.append(current_loss)
         if verbose:
+            print("using ortho %s" % str(ortho))
             print(' | '.join([("%d" % (t + 1)).rjust(8),
                               ("%.2e" % current_loss).rjust(8),
                               ("%.2e" % g_norm).rjust(8)]))
@@ -220,13 +234,17 @@ def gradient(D, weights=None):
     return grad
 
 
-def _linesearch(D, B, direction, current_loss, n_ls_tries, diag_only, weights):
+def _linesearch(D, B, direction, current_loss, n_ls_tries, diag_only, weights, ortho):
     n, p, _ = D.shape
     step = 1.
     if current_loss is None:
         current_loss = loss(B, D)
     for n in range(n_ls_tries):
-        M = np.eye(p) + step * direction
+        if ortho:
+            M = expm(step * direction)
+        else:
+            M = np.eye(p) + step * direction
+
         new_D = transform_set(M, D, diag_only=diag_only)
         new_B = np.dot(M, B)
         new_loss = loss(new_B, new_D, diag_only, weights)

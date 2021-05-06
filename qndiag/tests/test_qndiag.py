@@ -1,5 +1,5 @@
 import numpy as np
-from numpy.testing import assert_array_equal
+from numpy.testing import assert_array_equal, assert_allclose
 
 import pytest
 
@@ -39,3 +39,19 @@ def test_errors():
         x += x.swapaxes(1, 2)
         x[0] = np.array([[0, 1], [1, 0]])
         qndiag(x)
+
+@pytest.mark.parametrize('weights', [None])
+def test_qndiag_ortho(weights):
+    n, p = 10, 3
+    rng = np.random.RandomState(42)
+    diagonals = rng.uniform(size=(n, p))
+    A = rng.randn(p, p)  # mixing matrix
+    Ua,_, Va = np.linalg.svd(A, full_matrices=False)
+    A = Ua.dot(Va)
+    C = np.array([A.dot(d[:, None] * A.T) for d in diagonals])  # dataset
+    if weights:
+        weights = rng.rand(n)
+    B, _ = qndiag(C, B0=rng.randn(p, p), weights=weights, ortho=True, verbose=True)  # use the algorithm
+    BA = np.abs(B.dot(A))  # BA Should be a permutation matrix
+    BA[np.abs(BA) < 1e-6] = 0.
+    assert_allclose(BA[np.lexsort(BA)], np.eye(p))
