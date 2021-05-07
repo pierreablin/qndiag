@@ -14,7 +14,7 @@ def test_qndiag(weights, ortho):
     diagonals = rng.uniform(size=(n, p))
     A = rng.randn(p, p)  # mixing matrix
     if ortho:
-        Ua,_, Va = np.linalg.svd(A, full_matrices=False)
+        Ua, _, Va = np.linalg.svd(A, full_matrices=False)
         A = Ua.dot(Va)
     C = np.array([A.dot(d[:, None] * A.T) for d in diagonals])  # dataset
     if weights:
