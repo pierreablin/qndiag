@@ -23,6 +23,8 @@ Bug
 API
 ~~~
 
+- The package now requires scipy.
+
 Authors
 ~~~~~~~~
 
