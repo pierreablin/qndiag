@@ -51,6 +51,7 @@
             
                 <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="../api.html">API</a></li>
+                <li><a href="../whats_new.html">What's new</a></li>
                 <li><a href="https://github.com/pierreablin/qndiag">GitHub</a></li>
             
             
@@ -64,6 +65,7 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whats_new.html">What’s new?</a></li>
 </ul>
 </ul>
 </li>
@@ -87,11 +89,7 @@
             
             
             
-              <li class="hidden-sm">
-<div id="sourcelink">
-  <a href="../_sources/generated/qndiag.qndiag.rst.txt"
-     rel="nofollow">Source</a>
-</div></li>
+              <li class="hidden-sm"></li>
             
           </ul>
 
@@ -115,7 +113,7 @@
 <h1>qndiag.qndiag<a class="headerlink" href="#qndiag-qndiag" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="qndiag.qndiag">
-<code class="sig-prename descclassname">qndiag.</code><code class="sig-name descname">qndiag</code><span class="sig-paren">(</span><em class="sig-param">C</em>, <em class="sig-param">B0=None</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">max_iter=1000</em>, <em class="sig-param">tol=1e-06</em>, <em class="sig-param">lambda_min=0.0001</em>, <em class="sig-param">max_ls_tries=10</em>, <em class="sig-param">diag_only=False</em>, <em class="sig-param">return_B_list=False</em>, <em class="sig-param">check_sympos=True</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#qndiag.qndiag" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">qndiag.</code><code class="sig-name descname">qndiag</code><span class="sig-paren">(</span><em class="sig-param">C</em>, <em class="sig-param">B0=None</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">max_iter=1000</em>, <em class="sig-param">tol=1e-06</em>, <em class="sig-param">lambda_min=0.0001</em>, <em class="sig-param">max_ls_tries=10</em>, <em class="sig-param">diag_only=False</em>, <em class="sig-param">return_B_list=False</em>, <em class="sig-param">check_sympos=True</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">ortho=False</em><span class="sig-paren">)</span><a class="headerlink" href="#qndiag.qndiag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Joint diagonalization of matrices using the quasi-Newton method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -151,6 +149,8 @@ when the matrices are large (n_features &gt; 200)</p>
 symmetric positive definite matrices, as should be.</p>
 </dd>
 <dt><strong>verbose</strong><span class="classifier">bool, optional</span></dt><dd><p>Prints informations about the state of the algorithm if True.</p>
+</dd>
+<dt><strong>ortho</strong><span class="classifier">bool, optional</span></dt><dd><p>If true, performs joint diagonlization under orthogonal constrains.</p>
 </dd>
 </dl>
 </dd>
