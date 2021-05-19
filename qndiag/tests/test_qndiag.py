@@ -20,7 +20,7 @@ def test_qndiag(weights, ortho):
     if weights:
         weights = rng.rand(n)
     B, _ = qndiag(C, weights=weights,
-                  verbose=True, B0=np.eye(p), ortho=ortho)  # use the algorithm
+                  B0=np.eye(p), ortho=ortho)  # use the algorithm
     BA = np.abs(B.dot(A))  # BA Should be a permutation + scale matrix
     if not ortho:
         BA /= np.max(BA, axis=1, keepdims=True)
