@@ -19,7 +19,8 @@ def test_qndiag(weights, ortho):
     C = np.array([A.dot(d[:, None] * A.T) for d in diagonals])  # dataset
     if weights:
         weights = rng.rand(n)
-    B, _ = qndiag(C, weights=weights)  # use the algorithm
+    B, _ = qndiag(C, weights=weights,
+                  B0=np.eye(p), ortho=ortho)  # use the algorithm
     BA = np.abs(B.dot(A))  # BA Should be a permutation + scale matrix
     if not ortho:
         BA /= np.max(BA, axis=1, keepdims=True)

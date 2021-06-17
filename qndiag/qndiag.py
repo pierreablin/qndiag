@@ -145,7 +145,7 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
             diagonals[:, None, :] / diagonals[:, :, None],
             weights=weights_, axis=0)
         if ortho:
-            det = h + h.T - 1
+            det = h + h.T - 2
             det[det < lambda_min] = lambda_min  # Regularize
             direction = -G / det
         else:
