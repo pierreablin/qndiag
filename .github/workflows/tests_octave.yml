@@ -16,7 +16,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install octave
-      run: sudo apt-get install octave
+      run: |
+        sudo apt-get update
+        sudo apt-get install octave
     - name: Test
       run: |
         cd matlab_octave
