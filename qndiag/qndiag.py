@@ -166,7 +166,6 @@ def qndiag(C, B0=None, weights=None, max_iter=1000, tol=1e-6,
         gradient_list.append(g_norm)
         loss_list.append(current_loss)
         if verbose:
-            print("using ortho %s" % str(ortho))
             print(' | '.join([("%d" % (t + 1)).rjust(8),
                               ("%.2e" % current_loss).rjust(8),
                               ("%.2e" % g_norm).rjust(8)]))
