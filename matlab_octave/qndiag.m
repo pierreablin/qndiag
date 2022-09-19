@@ -79,7 +79,7 @@ end
 % Default parameters
 
 C_mean = squeeze(mean(C, 1));
-[p, d] = eigs(C_mean);
+[p, d] = eigs(C_mean, size(C_mean, 1));
 p = fliplr(p);
 d = flip(diag(d));
 B = p' ./ repmat(sqrt(d), 1, size(p, 1));
@@ -220,12 +220,12 @@ function [op] = transform_set(M, D, diag_only)
     [n, p, ~] = size(D);
     if ~diag_only
         op = zeros(n, p, p);
-        for k=1:length(D)
+        for k=1:n
             op(k, :, :) = M * squeeze(D(k, :, :)) * M';
         end
     else
         op = zeros(n, p);
-        for k=1:length(D)
+        for k=1:n
             op(k, :) = sum(M .* (squeeze(D(k, :, :)) * M'), 1);
         end
     end
@@ -264,7 +264,7 @@ function [success, new_D, new_B, new_loss, delta] = linesearch(D, B, direction, 
         new_D = transform_set(M, D, true);
         new_B = M * B;
         new_loss = loss(new_B, new_D, true, weights);
-        
+
         if new_loss < current_loss
             success = true;
             break
