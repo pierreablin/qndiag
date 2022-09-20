@@ -1,4 +1,4 @@
-qndiag.gradient
+﻿qndiag.gradient
 ===============
 
 .. currentmodule:: qndiag

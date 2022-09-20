@@ -1,4 +1,4 @@
-qndiag.transform\_set
+﻿qndiag.transform\_set
 =====================
 
 .. currentmodule:: qndiag

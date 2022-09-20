@@ -1,4 +1,4 @@
-qndiag.loss
+﻿qndiag.loss
 ===========
 
 .. currentmodule:: qndiag

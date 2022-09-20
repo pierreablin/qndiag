@@ -1,4 +1,4 @@
-qndiag.ajd\_pham
+﻿qndiag.ajd\_pham
 ================
 
 .. currentmodule:: qndiag
